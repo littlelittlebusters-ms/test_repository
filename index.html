@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Made in Japan 洋酒レコメンダー</title>
+  <style>
+    :root {
+      --gold: #c8a45c;
+      --gold-light: #e8d5a3;
+      --dark: #1a1a2e;
+      --dark-mid: #16213e;
+      --dark-light: #0f3460;
+      --text: #eee;
+      --text-muted: #aaa;
+      --card-bg: rgba(255,255,255,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 50%, var(--dark-light) 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+      border-bottom: 1px solid rgba(200,164,92,0.3);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+
+    /* --- Filters --- */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      align-items: flex-end;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .filter-group label {
+      font-size: 0.75rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-group select,
+    .filter-group input {
+      padding: 0.5rem 0.8rem;
+      border: 1px solid rgba(200,164,92,0.4);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .filter-group select:focus,
+    .filter-group input:focus {
+      border-color: var(--gold);
+    }
+
+    .filter-group select option {
+      background: var(--dark-mid);
+      color: var(--text);
+    }
+
+    .btn-recommend {
+      padding: 0.55rem 1.5rem;
+      background: linear-gradient(135deg, var(--gold), #a8893a);
+      color: var(--dark);
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      align-self: flex-end;
+    }
+
+    .btn-recommend:hover { opacity: 0.85; }
+
+    .btn-reset {
+      padding: 0.55rem 1rem;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      align-self: flex-end;
+    }
+
+    .btn-reset:hover { color: var(--text); border-color: rgba(255,255,255,0.4); }
+
+    /* --- Cards --- */
+    .results-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(200,164,92,0.15);
+      border-radius: 10px;
+      padding: 1.3rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(200,164,92,0.5);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-name {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--gold-light);
+    }
+
+    .card-category {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+      background: rgba(200,164,92,0.2);
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .card-maker {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .card-meta span::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-right: 0.3rem;
+      vertical-align: middle;
+    }
+
+    .stars {
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.4rem; }
+      .filters { flex-direction: column; }
+      .filter-group { width: 100%; }
+      .filter-group select, .filter-group input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>&#127867; Made in Japan 洋酒レコメンダー</h1>
+  <p>日本が誇る洋酒の中から、あなたにぴったりの一本を見つけましょう</p>
+</header>
+
+<div class="container">
+  <div class="filters">
+    <div class="filter-group">
+      <label>カテゴリ</label>
+      <select id="filterCategory">
+        <option value="">すべて</option>
+        <option value="ウイスキー">ウイスキー</option>
+        <option value="ジン">ジン</option>
+        <option value="ウォッカ">ウォッカ</option>
+        <option value="ラム">ラム</option>
+        <option value="ブランデー">ブランデー</option>
+        <option value="リキュール">リキュール</option>
+        <option value="ビール">クラフトビール</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>味わい</label>
+      <select id="filterTaste">
+        <option value="">すべて</option>
+        <option value="甘口">甘口</option>
+        <option value="辛口">辛口</option>
+        <option value="フルーティー">フルーティー</option>
+        <option value="スモーキー">スモーキー</option>
+        <option value="まろやか">まろやか</option>
+        <option value="爽やか">爽やか</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>価格帯</label>
+      <select id="filterPrice">
+        <option value="">すべて</option>
+        <option value="1">〜2,000円</option>
+        <option value="2">2,000〜5,000円</option>
+        <option value="3">5,000〜10,000円</option>
+        <option value="4">10,000円〜</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>キーワード</label>
+      <input type="text" id="filterKeyword" placeholder="例: ハイボール、山崎">
+    </div>
+    <button class="btn-recommend" onclick="applyFilters()">検索</button>
+    <button class="btn-reset" onclick="resetFilters()">リセット</button>
+  </div>
+
+  <div class="results-count" id="resultsCount"></div>
+  <div class="card-grid" id="cardGrid"></div>
+  <div class="no-results" id="noResults" style="display:none;">
+    条件に合う洋酒が見つかりませんでした。<br>フィルターを変更してみてください。
+  </div>
+</div>
+
+<footer>Made in Japan 洋酒レコメンダー &copy; 2026</footer>
+
+<script>
+const spirits = [
+  // ---- ウイスキー ----
+  {
+    name: "山崎 12年",
+    maker: "サントリー",
+    category: "ウイスキー",
+    taste: ["フルーティー", "まろやか"],
+    price: 4,
+    rating: 5,
+    description: "日本を代表するシングルモルト。熟したフルーツの甘みと複雑なオーク香が調和した、世界が認める至高の一本。",
+    keywords: ["シングルモルト", "ストレート", "ロック"]
+  },
+  {
+    name: "響 Japanese Harmony",
+    maker: "サントリー",
+    category: "ウイスキー",
+    taste: ["フルーティー", "甘口"],
+    price: 4,
+    rating: 5,
+    description: "日本の自然と匠の技が生む、繊細で華やかなブレンデッドウイスキー。蜂蜜やオレンジピールのような甘い余韻が特徴。",
+    keywords: ["ブレンデッド", "ストレート", "ギフト"]
+  },
+  {
+    name: "白州 12年",
+    maker: "サントリー",
+    category: "ウイスキー",
+    taste: ["爽やか", "フルーティー"],
+    price: 4,
+    rating: 5,
+    description: "南アルプスの森に囲まれた蒸溜所が生む、爽やかで清々しいシングルモルト。ハイボールとの相性が抜群。",
+    keywords: ["シングルモルト", "ハイボール", "森"]
+  },
+  {
+    name: "竹鶴 ピュアモルト",
+    maker: "ニッカウヰスキー",
+    category: "ウイスキー",
+    taste: ["まろやか", "フルーティー"],
+    price: 3,
+    rating: 4,
+    description: "余市と宮城峡のモルト原酒をブレンド。やわらかな口当たりと豊かなモルトの風味が楽しめるピュアモルトウイスキー。",
+    keywords: ["ピュアモルト", "ニッカ", "ロック"]
+  },
+  {
+    name: "余市",
+    maker: "ニッカウヰスキー",
+    category: "ウイスキー",
+    taste: ["スモーキー", "辛口"],
+    price: 3,
+    rating: 5,
+    description: "石炭直火蒸留による力強いスモーキーさと重厚なボディ。スコッチを愛する方にも響く、北海道生まれの骨太モルト。",
+    keywords: ["シングルモルト", "スモーキー", "石炭直火"]
+  },
+  {
+    name: "宮城峡",
+    maker: "ニッカウヰスキー",
+    category: "ウイスキー",
+    taste: ["フルーティー", "まろやか"],
+    price: 3,
+    rating: 4,
+    description: "華やかでフルーティーな香りとなめらかな飲み口が特徴。余市とは対照的なエレガントなスタイルのシングルモルト。",
+    keywords: ["シングルモルト", "フルーティー", "ニッカ"]
+  },
+  {
+    name: "知多",
+    maker: "サントリー",
+    category: "ウイスキー",
+    taste: ["まろやか", "甘口"],
+    price: 2,
+    rating: 4,
+    description: "軽やかで優しい味わいのグレーンウイスキー。風のように軽い飲み口はハイボールで真価を発揮する。",
+    keywords: ["グレーン", "ハイボール", "軽やか"]
+  },
+  {
+    name: "富士 シングルグレーン",
+    maker: "キリン",
+    category: "ウイスキー",
+    taste: ["まろやか", "甘口"],
+    price: 3,
+    rating: 4,
+    description: "富士山麓の蒸溜所で造られるシングルグレーン。バニラやキャラメルの甘い香りと滑らかな口当たりが魅力。",
+    keywords: ["シングルグレーン", "富士山", "バニラ"]
+  },
+  {
+    name: "イチローズモルト ミズナラウッドリザーブ",
+    maker: "ベンチャーウイスキー",
+    category: "ウイスキー",
+    taste: ["フルーティー", "スモーキー"],
+    price: 3,
+    rating: 5,
+    description: "秩父蒸溜所の注目ブランド。ミズナラ樽由来のお香のような和の香りと、豊かなフルーツ感が絶妙に融合。",
+    keywords: ["ミズナラ", "秩父", "クラフト"]
+  },
+  {
+    name: "角瓶",
+    maker: "サントリー",
+    category: "ウイスキー",
+    taste: ["辛口", "まろやか"],
+    price: 1,
+    rating: 3,
+    description: "1937年誕生のロングセラー。亀甲型の瓶が象徴的。角ハイボールとして日本の居酒屋文化を支える定番ウイスキー。",
+    keywords: ["ハイボール", "角ハイ", "居酒屋", "定番"]
+  },
+  {
+    name: "ブラックニッカ ディープブレンド",
+    maker: "ニッカウヰスキー",
+    category: "ウイスキー",
+    taste: ["スモーキー", "辛口"],
+    price: 1,
+    rating: 3,
+    description: "手頃な価格ながらしっかりとしたスモーキーさとコクのある味わい。日常の晩酌に最適なコスパに優れた一本。",
+    keywords: ["コスパ", "晩酌", "スモーキー"]
+  },
+  // ---- ジン ----
+  {
+    name: "季の美 京都ドライジン",
+    maker: "京都蒸溜所",
+    category: "ジン",
+    taste: ["爽やか", "辛口"],
+    price: 3,
+    rating: 5,
+    description: "玉露、柚子、山椒など和のボタニカルを使用した日本初のクラフトジン。繊細で奥深い味わいが世界を魅了。",
+    keywords: ["クラフトジン", "京都", "ボタニカル", "ジントニック"]
+  },
+  {
+    name: "ROKU (六)",
+    maker: "サントリー",
+    category: "ジン",
+    taste: ["フルーティー", "爽やか"],
+    price: 2,
+    rating: 4,
+    description: "桜花、桜葉、煎茶、玉露、山椒、柚子の6つの和素材を使用。四季を感じさせる繊細なジャパニーズクラフトジン。",
+    keywords: ["六", "クラフトジン", "桜", "ジントニック"]
+  },
+  {
+    name: "和美人",
+    maker: "本坊酒造",
+    category: "ジン",
+    taste: ["フルーティー", "爽やか"],
+    price: 2,
+    rating: 4,
+    description: "鹿児島の本坊酒造が手がける国産ジン。金柑、けせん、月桃など南九州のボタニカルが織りなすエキゾチックな味わい。",
+    keywords: ["鹿児島", "ボタニカル", "クラフトジン"]
+  },
+  {
+    name: "翠 (SUI)",
+    maker: "サントリー",
+    category: "ジン",
+    taste: ["爽やか", "辛口"],
+    price: 1,
+    rating: 3,
+    description: "柚子、緑茶、生姜の3つの和素材を使用。食事に合う爽やかなジンソーダが手軽に楽しめる、日常づかいの一本。",
+    keywords: ["ジンソーダ", "食事", "手軽", "コスパ"]
+  },
+  {
+    name: "NIKKA COFFEY GIN",
+    maker: "ニッカウヰスキー",
+    category: "ジン",
+    taste: ["フルーティー", "甘口"],
+    price: 3,
+    rating: 4,
+    description: "カフェ式連続蒸留機で造る独特のジン。山椒、柚子のほかりんごや甘夏など、フルーティーで柔らかな味わい。",
+    keywords: ["カフェジン", "ニッカ", "フルーティー"]
+  },
+  // ---- ウォッカ ----
+  {
+    name: "HAKU (白)",
+    maker: "サントリー",
+    category: "ウォッカ",
+    taste: ["まろやか", "甘口"],
+    price: 2,
+    rating: 4,
+    description: "白米を原料とした純日本産ウォッカ。竹炭でろ過することで生まれる、ほのかな甘みとやわらかな口当たりが特徴。",
+    keywords: ["米", "竹炭", "カクテル"]
+  },
+  {
+    name: "NIKKA COFFEY VODKA",
+    maker: "ニッカウヰスキー",
+    category: "ウォッカ",
+    taste: ["まろやか", "甘口"],
+    price: 2,
+    rating: 4,
+    description: "カフェ式連続蒸留機による独特のまろやかさ。トウモロコシと大麦麦芽由来の甘みが感じられるリッチなウォッカ。",
+    keywords: ["カフェウォッカ", "ニッカ", "カクテル"]
+  },
+  // ---- ラム ----
+  {
+    name: "イエラム サンタマリア ゴールド",
+    maker: "伊江島蒸留所",
+    category: "ラム",
+    taste: ["甘口", "まろやか"],
+    price: 2,
+    rating: 4,
+    description: "沖縄・伊江島産サトウキビを100%使用。トロピカルな甘さとバニラの香りが南国を感じさせるジャパニーズラム。",
+    keywords: ["沖縄", "サトウキビ", "トロピカル"]
+  },
+  {
+    name: "コルコル アグリコール",
+    maker: "グレイスラム",
+    category: "ラム",
+    taste: ["フルーティー", "爽やか"],
+    price: 2,
+    rating: 4,
+    description: "南大東島産のサトウキビを搾汁して直接発酵・蒸留するアグリコール製法。草花のような爽やかな香りが特徴。",
+    keywords: ["アグリコール", "南大東島", "クラフト"]
+  },
+  // ---- ブランデー ----
+  {
+    name: "サントリー XO デラックス",
+    maker: "サントリー",
+    category: "ブランデー",
+    taste: ["甘口", "フルーティー"],
+    price: 3,
+    rating: 4,
+    description: "日本の食文化に合わせた華やかで繊細なブランデー。ぶどうの芳醇な香りと長い余韻を楽しめる贅沢な一本。",
+    keywords: ["XO", "ぶどう", "食後酒"]
+  },
+  {
+    name: "マルスブランデー VSOP",
+    maker: "本坊酒造",
+    category: "ブランデー",
+    taste: ["フルーティー", "まろやか"],
+    price: 2,
+    rating: 3,
+    description: "山梨県産ぶどうを使用した国産ブランデー。穏やかなフルーツ香とやわらかい口当たりで、食後にゆったりと楽しめる。",
+    keywords: ["山梨", "ぶどう", "VSOP"]
+  },
+  // ---- リキュール ----
+  {
+    name: "奏 Kanade 抹茶",
+    maker: "サントリー",
+    category: "リキュール",
+    taste: ["甘口", "まろやか"],
+    price: 2,
+    rating: 4,
+    description: "宇治抹茶の豊かな風味をそのまま閉じ込めた和のリキュール。ミルク割りやカクテルベースとして幅広く活躍。",
+    keywords: ["抹茶", "カクテル", "和"]
+  },
+  {
+    name: "奏 Kanade 白桃",
+    maker: "サントリー",
+    category: "リキュール",
+    taste: ["甘口", "フルーティー"],
+    price: 2,
+    rating: 4,
+    description: "みずみずしい白桃の香りと甘さを活かした和リキュール。ソーダ割りやスパークリングワインとの相性も抜群。",
+    keywords: ["桃", "フルーティー", "カクテル"]
+  },
+  {
+    name: "MIDORI メロンリキュール",
+    maker: "サントリー",
+    category: "リキュール",
+    taste: ["甘口", "フルーティー"],
+    price: 2,
+    rating: 4,
+    description: "1978年にNYで発売され世界的ヒットとなったメロンリキュール。鮮やかな緑色と甘いメロンの風味が特徴。",
+    keywords: ["メロン", "カクテル", "世界的"]
+  },
+  // ---- クラフトビール ----
+  {
+    name: "常陸野ネスト ホワイトエール",
+    maker: "木内酒造",
+    category: "ビール",
+    taste: ["フルーティー", "爽やか"],
+    price: 1,
+    rating: 5,
+    description: "コリアンダーやオレンジピールを使用したベルジャンスタイル。フルーティーで爽やかな飲み口が世界中で高評価。",
+    keywords: ["クラフトビール", "ホワイトエール", "常陸野"]
+  },
+  {
+    name: "よなよなエール",
+    maker: "ヤッホーブルーイング",
+    category: "ビール",
+    taste: ["フルーティー", "甘口"],
+    price: 1,
+    rating: 4,
+    description: "アメリカンペールエールスタイル。カスケードホップの柑橘系アロマとモルトの甘みのバランスが秀逸。",
+    keywords: ["クラフトビール", "ペールエール", "ヤッホー"]
+  },
+  {
+    name: "インドの青鬼",
+    maker: "ヤッホーブルーイング",
+    category: "ビール",
+    taste: ["辛口", "フルーティー"],
+    price: 1,
+    rating: 4,
+    description: "驚異的な苦みと鮮烈なホップの香りが特徴のIPA。パンチの効いたビールが好きな方にぜひおすすめしたい一本。",
+    keywords: ["IPA", "クラフトビール", "苦い"]
+  }
+];
+
+function getPriceLabel(level) {
+  switch(level) {
+    case 1: return "〜2,000円";
+    case 2: return "2,000〜5,000円";
+    case 3: return "5,000〜10,000円";
+    case 4: return "10,000円〜";
+    default: return "";
+  }
+}
+
+function renderStars(n) {
+  return "★".repeat(n) + "☆".repeat(5 - n);
+}
+
+function renderCards(items) {
+  const grid = document.getElementById("cardGrid");
+  const noResults = document.getElementById("noResults");
+  const count = document.getElementById("resultsCount");
+
+  if (items.length === 0) {
+    grid.innerHTML = "";
+    noResults.style.display = "block";
+    count.textContent = "";
+    return;
+  }
+
+  noResults.style.display = "none";
+  count.textContent = `${items.length} 件の洋酒が見つかりました`;
+
+  grid.innerHTML = items.map(s => `
+    <div class="card">
+      <div class="card-header">
+        <span class="card-name">${s.name}</span>
+        <span class="card-category">${s.category}</span>
+      </div>
+      <div class="card-maker">${s.maker}</div>
+      <div class="card-desc">${s.description}</div>
+      <div class="card-meta">
+        <span>${s.taste.join(" / ")}</span>
+        <span>${getPriceLabel(s.price)}</span>
+        <span class="stars">${renderStars(s.rating)}</span>
+      </div>
+    </div>
+  `).join("");
+}
+
+function applyFilters() {
+  const category = document.getElementById("filterCategory").value;
+  const taste = document.getElementById("filterTaste").value;
+  const price = document.getElementById("filterPrice").value;
+  const keyword = document.getElementById("filterKeyword").value.trim().toLowerCase();
+
+  let results = spirits;
+
+  if (category) {
+    results = results.filter(s => s.category === category);
+  }
+  if (taste) {
+    results = results.filter(s => s.taste.includes(taste));
+  }
+  if (price) {
+    results = results.filter(s => s.price === parseInt(price));
+  }
+  if (keyword) {
+    results = results.filter(s =>
+      s.name.toLowerCase().includes(keyword) ||
+      s.maker.toLowerCase().includes(keyword) ||
+      s.description.toLowerCase().includes(keyword) ||
+      s.keywords.some(k => k.toLowerCase().includes(keyword))
+    );
+  }
+
+  renderCards(results);
+}
+
+function resetFilters() {
+  document.getElementById("filterCategory").value = "";
+  document.getElementById("filterTaste").value = "";
+  document.getElementById("filterPrice").value = "";
+  document.getElementById("filterKeyword").value = "";
+  renderCards(spirits);
+}
+
+// Initial render
+renderCards(spirits);
+
+// Allow Enter key to trigger search
+document.getElementById("filterKeyword").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") applyFilters();
+});
+</script>
+
+</body>
+</html>
