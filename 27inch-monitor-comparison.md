@@ -8,29 +8,30 @@
 - WQHD（2560×1440）以上
 - DisplayPort 入力と USB-A ポート（周辺機器接続）がある
 - VESA 100×100mm に対応
+- **1週間以内に東京で入手できる**（希望: 2日以内）
 
-## 候補比較（すべて必須条件を満たすモデル）
+## 入手性（東京・1週間以内）を加味した候補
 
-| モデル | リフレッシュレート | KVM | デイジーチェーン | USB-C／TB 給電 | 参考価格 | 備考 |
+在庫状況は検索時点の情報です。注文前に、各店舗の商品ページで「在庫あり」とお届け予定日を必ず確認してください。
+
+| モデル | リフレッシュレート | KVM | デイジーチェーン | USB-C／TB 給電 | 国内価格・入手経路 | 入手性の判定 |
 |---|---|---|---|---|---|---|
-| **ASUS ProArt PA278CGRV** | **144Hz** | ○（Auto KVM） | ○（DP Out） | USB-C 96W | 約 $249〜319 / €295〜300（国内価格は未確認） | 条件を最も多く満たし、しかも最安クラス。国内での流通は要確認 |
-| **Dell UltraSharp U2724DE** | 120Hz | ○（Auto KVM） | ○（DP Out / TB4） | Thunderbolt 4 90W | 国内参考 約68,200円 | IPS Black、2.5GbE LAN。**国内では法人限定販売** |
-| **HP Series 7 Pro 727pu** | 120Hz | ○ | ○（DP Out / TB4） | Thunderbolt 4 100W | HP直販 107,800円〜 | IPS Black、RJ45。高価 |
-| Dell Pro 27 Plus P2725DE | 100Hz | 未確認 | ○（DP Out MST） | USB-C 90W | 約 €310（国内価格は未確認） | 安価な中位機。KVMの有無は公式仕様で要確認 |
-| HP Series 7 Pro 727pq | 120Hz | 未確認 | ○ | なし（USB-C上流はデータのみ） | 約 €412 | Mac への一本接続はできない |
-| BenQ GW2790QT | 75Hz | 記載なし | ○（DP Out MST） | USB-C 65W | 約 49,000円 | 安価。リフレッシュレートは低め |
-| Lenovo ThinkVision P27h-30 | 60Hz | ○ | ○（DP Out） | USB-C | ― | 旧世代。KVMの切替が遅いという口コミあり |
+| **HP Series 7 Pro 727pu** | 120Hz | ○ | ○（DP Out / TB4） | Thunderbolt 4 100W | NTT-X Store 84,888円（在庫僅少）、HP直販 107,800円〜 | ◎〜○ NTT-X に在庫があれば2日以内も狙えます |
+| **Dell Pro 27 Plus P2725DE** | 100Hz | 未確認（公式資料に記載なし） | ○（DP Out MST） | USB-C 90W | Dell直販 43,800円、Amazon.co.jp 約45,684〜50,999円、アスクル 48,010円（在庫あり） | ○ 出品によってはAmazonの発送目安が7〜8日のため、Amazon本体の在庫を選んでください |
+| **JAPANNEXT JN-IPS27Q4FL-HSPC9-DL** | 未確認 | ○ | ○（DP Out、最大2台） | USB-C | 直販 39,980円（発売時） | ○ 国内メーカーのため入手しやすいです。リフレッシュレートは要確認 |
+| BenQ GW2790QT | 75Hz | なし | ○ | USB-C 65W | ヨドバシ 54,000円（お取り寄せ）、ツクモ（在庫なし） | △ 1週間以内に届かない可能性があります |
 
-ベゼルは、いずれも3辺狭額縁のデザインです。中でも Dell UltraSharp、HP Series 7 Pro、ASUS ProArt は細身で、スマートに見えます。
+### 新条件で外れた候補
 
-## おすすめ
+- **ASUS ProArt PA278CGRV**（144Hz・KVM・デイジーチェーン）: 国内の販売ページが見つかりませんでした。並行輸入では1週間以内の入手は難しいです。
+- **Dell U2724DE**: 国内では法人限定販売のため、個人で短期間に入手するのは困難です。
+- **HP 727pq**: 国内の販売ページが見つからず、USB-C給電もありません。
 
-1. **コスパ重視なら ASUS ProArt PA278CGRV**
-   希望条件（KVM・144Hz・デイジーチェーン・狭額縁・安価）をすべて満たします。USB-C 96W給電なので、MacBook Pro とはケーブル1本で接続できます。
-   国内で正規品が手に入るかどうかは、購入前に確認してください。
-2. **品質・安定性重視なら Dell U2724DE**
-   Thunderbolt 4 によるドック機能、有線LAN、IPS Black パネルを備えた完成度の高い仕事向けモデルです。ただし国内では法人限定販売のため、個人で買う場合は入手経路が限られます。
-   個人で正規購入できる同等品を探すなら、HP 727pu が候補になりますが、価格は高めです。
+## おすすめ（新条件反映後）
+
+1. **HP Series 7 Pro 727pu**: 希望条件（KVM・120Hz・デイジーチェーン・狭額縁）をすべて満たす国内入手可能なモデルです。Thunderbolt 4 の100W給電で、MacBook Pro もケーブル1本で接続できます。まず NTT-X Store の在庫を確認し、在庫がなければ HP 直販を検討してください。
+2. **Dell P2725DE**: 安さを優先する場合の候補です。約4.4万円で、100Hz・デイジーチェーン・90W給電に対応しています。ただし KVM の有無は確認できていないため、Mac と Windows でキーボード・マウスを共有するなら、マルチペアリング対応のキーボードとマウスを併用する前提で考えてください。
+3. **JAPANNEXT JN-IPS27Q4FL-HSPC9-DL**: KVM とデイジーチェーンの両方に対応し、最安クラスです。リフレッシュレートが仕様で確認できていないため、高リフレッシュレートを重視するなら優先度は下がります。
 
 ## 接続構成についての注意点
 
@@ -41,6 +42,15 @@
 - **DisplayPort 入力**は全候補が対応しています。ミニPCは DP ケーブルで接続するのが確実です。
 
 ## 参考リンク
+
+- [NTT-X Store: HP 727pu](https://nttxstore.jp/_II_HP16798033)
+- [Dell 直販: P2725DE](https://dell.com/ja-jp/shop/dell-pro-27-plus-qhd-usb-c%E3%83%8F%E3%83%96-%E3%83%A2%E3%83%8B%E3%82%BF%E3%83%BC-p2725de/apd/210-bqxs/%E3%83%A2%E3%83%8B%E3%82%BF%E3%83%BC-%E3%83%A2%E3%83%8B%E3%82%BF%E3%83%BC%E7%94%A8%E5%91%A8%E8%BE%BA%E6%A9%9F%E5%99%A8)
+- [Amazon.co.jp: P2725DE](https://www.amazon.co.jp/dp/B0F4P669Z1)
+- [アスクル: P2725DE](https://www.askul.co.jp/p/AAR7933/)
+- [価格.com: P2725DE](https://search.kakaku.com/P2725DE/)
+- [財経新聞: JAPANNEXT JN-IPS27Q4FL-HSPC9-DL 発売](https://zaikei.co.jp/releases/2789851/)
+- [ASCII: JAPANNEXT デイジーチェーン対応WQHD](https://ascii.jp/elem/000/004/253/4253890/)
+- [ツクモ: BenQ GW2790QT](https://shop.tsukumo.co.jp/goods/0406620786018/)
 
 - [B&H: ASUS ProArt PA278CGRV](https://www.bhphotovideo.com/c/product/1946412-REG/asus_proart_display_pa278cgrv_27.html)
 - [Newegg: ASUS PA278CGRV](https://www.newegg.com/asus-pa278cgrv-27-qhd-144hz-proart-ips-black-silver/p/N82E16824281406)
