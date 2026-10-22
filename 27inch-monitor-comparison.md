@@ -30,6 +30,7 @@
 ## おすすめ（新条件反映後）
 
 1. **HP Series 7 Pro 727pu**: 希望条件（KVM・120Hz・デイジーチェーン・狭額縁）をすべて満たす国内入手可能なモデルです。Thunderbolt 4 の100W給電で、MacBook Pro もケーブル1本で接続できます。まず NTT-X Store の在庫を確認し、在庫がなければ HP 直販を検討してください。
+   - VESA について: 本体背面は HP 独自のクイックリリース形状です。同梱の **VESA 100×100mm マウントアダプター（ブラケット）** を取り付けると、一般的なモニターアームに装着できます（HP QuickSpecs で「100 x 100 mm (bracket included)」と記載）。アダプターを紛失しないよう注意してください。
 2. **Dell P2725DE**: 安さを優先する場合の候補です。約4.4万円で、100Hz・デイジーチェーン・90W給電に対応しています。ただし KVM の有無は確認できていないため、Mac と Windows でキーボード・マウスを共有するなら、マルチペアリング対応のキーボードとマウスを併用する前提で考えてください。
 3. **JAPANNEXT JN-IPS27Q4FL-HSPC9-DL**: KVM とデイジーチェーンの両方に対応し、最安クラスです。リフレッシュレートが仕様で確認できていないため、高リフレッシュレートを重視するなら優先度は下がります。
 
@@ -44,6 +45,7 @@
 ## 参考リンク
 
 - [NTT-X Store: HP 727pu](https://nttxstore.jp/_II_HP16798033)
+- [HP QuickSpecs: 727pu](https://h20195.www2.hp.com/v2/GetDocument.aspx?docname=c08893145)
 - [Dell 直販: P2725DE](https://dell.com/ja-jp/shop/dell-pro-27-plus-qhd-usb-c%E3%83%8F%E3%83%96-%E3%83%A2%E3%83%8B%E3%82%BF%E3%83%BC-p2725de/apd/210-bqxs/%E3%83%A2%E3%83%8B%E3%82%BF%E3%83%BC-%E3%83%A2%E3%83%8B%E3%82%BF%E3%83%BC%E7%94%A8%E5%91%A8%E8%BE%BA%E6%A9%9F%E5%99%A8)
 - [Amazon.co.jp: P2725DE](https://www.amazon.co.jp/dp/B0F4P669Z1)
 - [アスクル: P2725DE](https://www.askul.co.jp/p/AAR7933/)
